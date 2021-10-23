@@ -1,28 +1,39 @@
 package com.systems.mq.consumer;
 
+import com.systems.mq.broker.Broker;
+import com.systems.mq.models.QItem;
+
+import java.util.Optional;
+
 public class BasicConsumer<T> implements Consumer<T> {
+    /**
+     * Consumer tracks the offset from which it has to read message
+     * With read() consumer can access message at any offset
+     */
     private final int consumerId;
-    private final int currentOffset;
+    private int currentOffset;
     private final int topicId;
+    private final Broker<T> broker;
 
-    public BasicConsumer(int consumerId, int topicId){
+    public BasicConsumer(int consumerId, int topicId, Broker<T> broker){
         this.consumerId = consumerId;
-        this.currentOffset = 0;
+        this.currentOffset = -1;
         this.topicId = topicId;
-    }
-    @Override
-    public void connect() {
-
+        this.broker = broker;
+        broker.registerConsumer(this);
     }
 
     @Override
-    public T poll() {
-        return null;
+    public Optional<QItem<T>> poll() {
+        Optional<QItem<T>> item = this.read(currentOffset+1);
+        if(item.isPresent())
+            currentOffset++;
+        return item;
     }
 
     @Override
-    public T read(int offset) {
-        return null;
+    public Optional<QItem<T>> read(int offset) {
+        return broker.consume(consumerId, topicId, offset);
     }
 
     @Override

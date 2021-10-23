@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface Broker<T> {
     int registerConsumer(Consumer<T> consumer);
     boolean unregisterConsumer(int consumerId, int topicId);
-    Optional<QItem<T>> consume(int consumerId, int topicId);
+    Optional<QItem<T>> consume(int consumerId, int topicId, int offset);
     boolean produce(int topicId, T data);
 }

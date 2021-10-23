@@ -2,12 +2,13 @@ package com.systems.mq.q;
 
 import com.systems.mq.models.QItem;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class BasicPartition<T> implements PartitionQueue<T>{
+    /**
+     * Data once written in partition is immutable
+     * offsetMap ensures O(1) poll
+     */
     private final LinkedList<QItem<T>> queue;
     private final Map<Integer, QItem<T>> offsetMap;
     private int offset;
@@ -44,7 +45,9 @@ public class BasicPartition<T> implements PartitionQueue<T>{
             this.poll();
         }
         offset++;
-        this.queue.add(new QItem<>(offset, data));
+        QItem<T> item = new QItem<>(offset, data);
+        this.queue.add(item);
+        this.offsetMap.put(offset, item);
         return this.offset;
     }
 
