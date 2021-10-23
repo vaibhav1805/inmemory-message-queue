@@ -1,4 +1,4 @@
-# inmemory-message-queue
+# In Memory Message Queue
 In memory MQ implementation inspired by Kafka
 
 ## FUNCTIONAL REQUIREMENTS:
