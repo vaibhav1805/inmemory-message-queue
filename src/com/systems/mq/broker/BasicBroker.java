@@ -4,9 +4,9 @@ import com.systems.mq.consumer.Consumer;
 import com.systems.mq.models.QItem;
 import com.systems.mq.q.Topic;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BasicBroker<T> implements Broker<T> {
     /**
@@ -19,9 +19,9 @@ public class BasicBroker<T> implements Broker<T> {
     private final Map<String, Integer> topicConsumerMap;
 
     public BasicBroker(){
-        this.topics = new HashMap<>();
-        this.consumers = new HashMap<>();
-        this.topicConsumerMap = new HashMap<>();
+        this.topics = new ConcurrentHashMap<>();
+        this.consumers = new ConcurrentHashMap<>();
+        this.topicConsumerMap = new ConcurrentHashMap<>();
     }
 
     //topicId_consumerId -> partitionId
