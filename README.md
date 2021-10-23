@@ -9,4 +9,4 @@ In memory MQ implementation inspired by Kafka
 
 ## NON FUNCTION REQUIREMENTS
 - Low latency
-- TODO Concurrency
+- Concurrenc workloads
